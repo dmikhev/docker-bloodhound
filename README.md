@@ -7,20 +7,25 @@ Bloodhound version: 2.2.1
 ### Build
 `docker build . -t bloodhound`
 
-## Run (with autorestart)
+## Run
 ```
 docker run -it \
-  -p 7474:7474 \
+  -p 7687:7687 \
+  -p 7473:7473 \
   -e DISPLAY=unix$DISPLAY \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   --device=/dev/dri:/dev/dri \
   -v ~/bloodhound/data:/data \
-  --restart=always --name bloodhound bloodhound
+  --name bloodhound bloodhound
 ```
 
 ### Start container
 ```
 docker start bloodhound
+```
+### Stop container
+```
+docker stop bloodhound
 ```
 
 ## Use
@@ -34,6 +39,3 @@ data folder is also mounted as volume, use it to drop your data and load it in  
 
 ## Documentation
 https://github.com/BloodHoundAD/BloodHound/wiki
-
-## Tested
-Ubuntu 18.04 Server
