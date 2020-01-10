@@ -1,8 +1,5 @@
 FROM openjdk:8-jre-slim
 MAINTAINER github.com/dmikhev
-ARG data=none
-ARG neo4j=3.4.8
-ARG bloodhound=2.2.1
 
 # Base packages
 RUN apt-get update -qq &&\
@@ -20,18 +17,21 @@ RUN apt-get update -qq &&\
       libgl1-mesa-dri \
       libgconf-2-4 \
       libasound2 \
-      libxss1
+      libxss1 \
+      apt-utils \
+      java8-runtime-headless \
+      openjdk-8-jre-headless
 
 # Neo4j
-RUN wget -nv -O - https://debian.neo4j.org/neotechnology.gpg.key | apt-key add - &&\
-    echo 'deb http://debian.neo4j.org/repo stable/' > /etc/apt/sources.list.d/neo4j.list &&\
-    apt-get update -qq &&\
-    apt-get install -y -qq neo4j=1:$neo4j
+RUN wget -nv -O - https://debian.neo4j.org/neotechnology.gpg.key | apt-key add - && \
+    echo 'deb http://debian.neo4j.org/repo stable/' > /etc/apt/sources.list.d/neo4j.list && \
+    apt-get update -qq && \
+    apt-get install -y -qq neo4j
 
 # BloodHound
-RUN wget https://github.com/BloodHoundAD/BloodHound/releases/download/2.2.1/BloodHound-linux-x64.zip -nv -P /tmp &&\
-    unzip /tmp/BloodHound-linux-x64.zip -d /opt/ &&\
-    mkdir /data &&\
+RUN wget https://github.com/BloodHoundAD/BloodHound/releases/download/2.2.1/BloodHound-linux-x64.zip -nv -P /tmp && \
+    unzip /tmp/BloodHound-linux-x64.zip -d /opt/ && \
+    mkdir /data && \
     chmod +x /opt/BloodHound-linux-x64/BloodHound
 
 # BloodHound Config
