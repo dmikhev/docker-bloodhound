@@ -29,21 +29,13 @@ RUN wget -nv -O - https://debian.neo4j.org/neotechnology.gpg.key | apt-key add -
     apt-get install -y -qq neo4j=1:$neo4j
 
 # BloodHound
-RUN wget https://github.com/BloodHoundAD/BloodHound/releases/download/$bloodhound/BloodHound-linux-x64.zip -nv -P /tmp &&\
+RUN wget https://github.com/BloodHoundAD/BloodHound/releases/download/2.2.1/BloodHound-linux-x64.zip -nv -P /tmp &&\
     unzip /tmp/BloodHound-linux-x64.zip -d /opt/ &&\
     mkdir /data &&\
     chmod +x /opt/BloodHound-linux-x64/BloodHound
 
 # BloodHound Config
 COPY config/*.json /root/.config/bloodhound/
-
-# BloodHound Test Data
-RUN if [ "$data" = "example" ]; then \
-    git clone https://github.com/adaptivethreat/BloodHound.git /tmp/BloodHound/ &&\
-    cp -r /tmp/BloodHound/BloodHoundExampleDB.graphdb /var/lib/neo4j/data/databases/ &&\
-    chown -R neo4j:neo4j /var/lib/neo4j/data/databases/BloodHoundExampleDB.graphdb/ &&\
-    echo "dbms.active_database=BloodHoundExampleDB.graphdb" >> /etc/neo4j/neo4j.conf &&\
-    echo "dbms.allow_upgrade=true" >> /etc/neo4j/neo4j.conf; fi
 
 # Start
 RUN echo '#!/usr/bin/env bash\n\
