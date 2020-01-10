@@ -1,4 +1,4 @@
-FROM openjdk:11-jre
+FROM openjdk:8-jre
 MAINTAINER github.com/dmikhev
 
 # Base packages
