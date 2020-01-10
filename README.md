@@ -10,7 +10,7 @@ Bloodhound version: 2.2.1
 ## Run (with autorestart)
 ```
 docker run -it \
-  -p 7474:7474 \
+  -p 7687:7687 \
   -e DISPLAY=unix$DISPLAY \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   --device=/dev/dri:/dev/dri \
@@ -24,7 +24,7 @@ docker start bloodhound
 ```
 
 ## Use
-Login:
+Default login:
 - **Database URL:** bolt://localhost:7687
 - **DB Username:** neo4j
 - **DB Password:** blood
