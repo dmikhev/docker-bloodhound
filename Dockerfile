@@ -27,6 +27,13 @@ RUN wget -nv -O - https://debian.neo4j.org/neotechnology.gpg.key | apt-key add -
     apt-get -y update && \
     apt-get install -y neo4j
 
+# Neo4j Config
+RUN echo "dbms.connectors.default_listen_address=0.0.0.0" >> /etc/neo4j/neo4j.conf && \
+    echo "dbms.connector.bolt.enabled=true" >> /etc/neo4j/neo4j.conf && \
+    echo "dbms.connector.bolt.listen_address=:7687" >> /etc/neo4j/neo4j.conf && \
+    echo "dbms.connector.https.enabled=true" >> /etc/neo4j/neo4j.conf && \
+    echo "dbms.connector.https.listen_address=:7473" >> /etc/neo4j/neo4j.conf
+
 # BloodHound Install
 # Replace wget with actual version of Bloodhound
 RUN cd /opt && \
@@ -42,6 +49,7 @@ RUN mkdir /opt/BloodHound-linux-x64/resources/app/Ingestors && \
 # BloodHound Config
 COPY config/*.json /root/.config/bloodhound/
 
+# Startup script
 RUN echo '#!/usr/bin/env bash\n\
     service neo4j start\n\
     echo "Starting ..."\n\
@@ -49,8 +57,10 @@ RUN echo '#!/usr/bin/env bash\n\
     echo "First run takes some time"; sleep 5\n\
     until $(curl -s -H "Content-Type: application/json" -X POST -d {\"password\":\"blood\"} --fail -u neo4j:neo4j http://127.0.0.1:7474/user/neo4j/password); do sleep 4; done; fi\n\
     cp -n /opt/BloodHound-linux-x64/resources/app/Ingestors/SharpHound.* /data\n\
-    echo "\e[92m*** Log in with bolt://127.0.0.1:7687 (neo4j:blood) ***\e[0m"\n\
-    sleep 7; /opt/BloodHound-linux-x64/BloodHound 2>/dev/null\n' > /opt/run.sh &&\
+    echo "\e[92m*** Log in with bolt://<DockerIP_Address>:7687 (neo4j:blood) ***\e[0m"\n\
+    echo "\e[92m*** Access to Neo4j browser: https://<DockerIP_Address>:7473 ***\e[0m"\n\
+    sleep 7; /opt/BloodHound-linux-x64/BloodHound 2>/dev/null;\n\
+    while true; do sleep 10; done;' > /opt/run.sh &&\
     chmod +x /opt/run.sh
 
 # Clean up
