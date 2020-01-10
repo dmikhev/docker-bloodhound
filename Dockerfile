@@ -19,8 +19,7 @@ RUN apt-get update -qq &&\
       libasound2 \
       libxss1 \
       apt-utils \
-      java8-runtime-headless \
-      openjdk-8-jre-headless
+      java8-runtime-headless
 
 # Neo4j
 RUN wget -nv -O - https://debian.neo4j.org/neotechnology.gpg.key | apt-key add - && \
