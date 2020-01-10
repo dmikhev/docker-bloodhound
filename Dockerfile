@@ -1,8 +1,8 @@
 FROM openjdk:8-jre-slim
-MAINTAINER github.com/belane
+MAINTAINER github.com/dmikhev
 ARG data=none
 ARG neo4j=3.4.8
-ARG bloodhound=2.1.0
+ARG bloodhound=2.2.1
 
 # Base packages
 RUN apt-get update -qq &&\
