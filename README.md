@@ -10,7 +10,7 @@ Bloodhound version: 2.2.1
 ## Run (with autorestart)
 ```
 docker run -it \
-  -p 7687:7687 \
+  -p 7474:7474 \
   -e DISPLAY=unix$DISPLAY \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   --device=/dev/dri:/dev/dri \
