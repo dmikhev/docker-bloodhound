@@ -30,7 +30,7 @@ docker stop bloodhound
 
 ## Use
 Default login:
-- **Database URL:** bolt://localhost:7687
+- **Database URL:** bolt://<DockerIP_Address>:7687 (or bolt://localhost:7687 in some cases)
 - **DB Username:** neo4j
 - **DB Password:** blood
 
